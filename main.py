@@ -1,21 +1,8 @@
 from tkinter import *
+import tkinter.messagebox
 import os
 
 os.system('cls')                                                                                    #clear console
-
-
-class settingsWindow:
-
-    def __init__(self, master):
-        topFrame = Frame(master)
-        topFrame.pack(side = TOP)
-        bottomFrame = Frame(master)
-        bottomFrame.pack(side = BOTTOM)
-
-        closeButton = Button(bottomFrame, label = "Save and Close", fg = "black", command = self.close)
-
-    def close(self):
-        root.quit()
 
 
 class mainWindow:                                                                                   #Main window for program
@@ -37,7 +24,7 @@ class mainWindow:                                                               
         self.menu = Menu(topFrame)                                                                  #Menu across top of window
         master.config(menu=self.menu)
 
-        self.fileSubMenu = Menu(self.menu)
+        self.fileSubMenu = Menu(self.menu, tearoff = False)
         self.menu.add_cascade(label = "File", menu = self.fileSubMenu)
         self.fileSubMenu.add_command(label = "Settings", command = self.openSettings)
         self.fileSubMenu.add_separator()
@@ -47,10 +34,16 @@ class mainWindow:                                                               
         print("test")
 
     def quit(self):
-        root.destroy()
+        answer = tkinter.messagebox.askquestion("Quit?", "Are you sure you want to quit?")
+        
+        if answer == "yes":
+            root.destroy()
 
     def openSettings(self):
-        settings = settingsWindow(root)
+        settings = Toplevel()
+        settings.title("Settings Menu")
+        self.closeSettings = Button(settings, text = "Close", command = settings.destroy)
+        self.closeSettings.pack()
 
 root = Tk()
 window = mainWindow(root)
