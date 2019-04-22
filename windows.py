@@ -1,11 +1,13 @@
 from tkinter import *
 from tkinter import filedialog
 import tkinter.messagebox
+import os
 
 
-class mainWindow:                                                                                   #Main window for program
+class mainWindow:                                                                                   #main window for program
 
-    def __init__(self, master):
+    def __init__(self, master, settings):
+        self.settings = settings
         self.master = master
         topFrame = Frame(master)
         topFrame.pack(side = TOP)
@@ -16,15 +18,7 @@ class mainWindow:                                                               
 
         self.fileLocation = ""                                                                      #init file location to empty
 
-        #self.fileButton = Button(topFrame, text = "File", fg = "Black")
-        #self.fileButton.grid(row = 0, column = 0, sticky = W)
-        #self.fileButton.bind("<Button-1>", self.test)
-
-        #self.settingsButton = Button(topFrame, text = "Settings", fg = "black")
-        #self.settingsButton.grid(row = 0, column = 1, sticky = W)
-        #self.settingsButton.bind("<Button-1>", self.test)
-
-        self.menu = Menu(topFrame)                                                                  #Menu across top of window
+        self.menu = Menu(topFrame)                                                                  #menu across top of window
         master.config(menu=self.menu)
 
         self.fileSubMenu = Menu(self.menu, tearoff = False)
@@ -56,7 +50,10 @@ class mainWindow:                                                               
         closeSettings.pack()
 
     def fileLoad(self):
-        self.fileLocation = filedialog.askopenfilename(initialdir = "/",title = "Select file", filetypes = (("txt files","*.txt"),("all files","*.*")))
+        #dir_path = os.path.dirname(os.path.realpath(__file__))
+        dir_path = self.settings.getCurrentOpenLoc()
+        self.fileLocation = filedialog.askopenfilename(initialdir = dir_path,title = "Select file", filetypes = (("txt files","*.txt"),("all files","*.*")))
+        self.settings.setCurrentOpenLoc(os.path.dirname(self.fileLocation))
 
     def printFileLocation(self, event):
         print(self.fileLocation)
