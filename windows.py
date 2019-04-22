@@ -64,10 +64,25 @@ class mainWindow:                                                               
 
         ansysFileLoc.insert(0, self.settings.getAnsysLoc())
 
+        def saveAnsysLoc():
+            if ansysFileLoc.get() != self.settings.getAnsysLoc():
+                self.settings.setAnsysLoc(ansysFileLoc.get())
+
+        def findAnsysLoc():
+            dir_path = os.path.dirname(self.settings.getAnsysLoc())
+            ansysLoc = filedialog.askopenfilename(initialdir = dir_path, title = "Locate ANSYS", filetypes = (("exe files",".exe"),("all files","*.*")))
+            if ansysLoc != "":
+                ansysFileLoc.delete(0, len(ansysFileLoc.get()))
+                ansysFileLoc.insert(0, ansysLoc)
+
+        ansysFileLocSave = Button(settingsTop, text = "Save", command = saveAnsysLoc)
+        ansysFileLocFind = Button(settingsTop, text = "Locate", command = findAnsysLoc)
+        ansysFileLocFind.grid(row = 0, column = 2)
+        ansysFileLocSave.grid(row = 0, column = 3)
+
     def fileLoad(self):
-        #dir_path = os.path.dirname(os.path.realpath(__file__))
         dir_path = self.settings.getCurrentOpenLoc()
-        self.fileLocation = filedialog.askopenfilename(initialdir = dir_path,title = "Select file", filetypes = (("txt files","*.txt"),("all files","*.*")))
+        self.fileLocation = filedialog.askopenfilename(initialdir = dir_path, title = "Select file", filetypes = (("txt files","*.txt"),("all files","*.*")))
         if os.path.dirname(self.fileLocation) != "":
             self.settings.setCurrentOpenLoc(os.path.dirname(self.fileLocation))
 

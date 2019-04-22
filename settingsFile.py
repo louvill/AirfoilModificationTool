@@ -22,10 +22,10 @@ class settingsFile:
         self.updateSettingsFile()
 
     def getAnsysLoc(self):
-        return self.settingsArray[0][1]
+        return self.settingsArray[1][1]
 
     def setAnsysLoc(self, currentFileLoc):
-        self.settingsArray[0][1] = currentFileLoc
+        self.settingsArray[1][1] = currentFileLoc
         self.updateSettingsFile()
 
     def updateSettingsFile(self):

@@ -1,2 +1,2 @@
-defaultOpenLoc c:\Users\louvi\OneDrive\CFD\AirfoilModificationTool
-AnsysLoc c:\Users\louvi\OneDrive\CFD\AirfoilModificationTool
+defaultOpenLoc c:\Users\louvi\OneDrive\CFD\AirfoilModificationTool 
+AnsysLoc C:/Users/louvi/AppData/Local/Discord/Update.exe 
