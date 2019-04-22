@@ -9,6 +9,7 @@ class mainWindow:                                                               
     def __init__(self, master, settings):
         self.settings = settings
         self.master = master
+        self.master.title("Airfoil Modification Tool")
         topFrame = Frame(master)
         topFrame.pack(side = TOP)
         middleFrame = Frame(master, height = 200, width = 400)
@@ -46,14 +47,29 @@ class mainWindow:                                                               
     def openSettings(self):
         settings = Toplevel()
         settings.title("Settings Menu")
-        closeSettings = Button(settings, text = "Close", command = settings.destroy)
-        closeSettings.pack()
+        settingsTop = Frame(settings)
+        settingsTop.pack()
+        settingsBottom = Frame(settings)
+        settingsBottom.pack()
+
+        closeSettings = Button(settingsBottom, text = "Close", command = settings.destroy)
+        closeSettings.grid(row = 0)
+        #closeAndSaveSettings = Button(settingsBottom, text = "Close and Save")
+        #closeAndSaveSettings.grid(row = 0, column = 1)
+
+        ansysFileLoc = Entry(settingsTop, width = 60)
+        ansysLabel = Label(settingsTop, text = "ANSYS Application Location")
+        ansysLabel.grid(row = 0)
+        ansysFileLoc.grid(row = 0, column = 1)
+
+        ansysFileLoc.insert(0, self.settings.getAnsysLoc())
 
     def fileLoad(self):
         #dir_path = os.path.dirname(os.path.realpath(__file__))
         dir_path = self.settings.getCurrentOpenLoc()
         self.fileLocation = filedialog.askopenfilename(initialdir = dir_path,title = "Select file", filetypes = (("txt files","*.txt"),("all files","*.*")))
-        self.settings.setCurrentOpenLoc(os.path.dirname(self.fileLocation))
+        if os.path.dirname(self.fileLocation) != "":
+            self.settings.setCurrentOpenLoc(os.path.dirname(self.fileLocation))
 
     def printFileLocation(self, event):
         print(self.fileLocation)

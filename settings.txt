@@ -1,1 +1,2 @@
-defaultOpenLoc 
+defaultOpenLoc c:\Users\louvi\OneDrive\CFD\AirfoilModificationTool
+AnsysLoc c:\Users\louvi\OneDrive\CFD\AirfoilModificationTool
