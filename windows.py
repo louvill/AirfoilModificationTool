@@ -2,15 +2,18 @@ from tkinter import *
 from tkinter import filedialog
 import tkinter.messagebox
 import os
-
+import ntpath
+from airfoil import * 
 
 class mainWindow:                                                                                   #main window for program
 
     def __init__(self, master, settings):
-        self.settings = settings
+        self.settings = settings                                                                    #settings information
         self.master = master
         self.master.title("Airfoil Modification Tool")
-        topFrame = Frame(master)
+        self.af = airfoil()                                                                         #airfoil that will be used for analysis and display
+
+        topFrame = Frame(master)                                                                    #subdivisions of UI area
         topFrame.pack(side = TOP)
         middleFrame = Frame(master, height = 200, width = 400)
         middleFrame.pack()
@@ -31,20 +34,20 @@ class mainWindow:                                                               
         self.fileSubMenu.add_separator()
         self.fileSubMenu.add_command(label = "Quit", command = self.quit)
 
-        self.fileLocButton = Button(bottomFrame, text = "Test File Location", fg = "Black")
-        self.fileLocButton.pack()
-        self.fileLocButton.bind("<Button-1>", self.printFileLocation)
+        self.fileLocLabel = Label(bottomFrame, text = "Current loaded file name will be displayed here", fg = "Black")
+        self.fileLocLabel.pack()                                                                    #label that contains file info
 
-    def test(self):
-        print("test")
+        self.canvas = Canvas(middleFrame, width = 800, height = 400)                                #area that info will be drawn
+        self.canvas.pack()
+        #self.canvas.create_oval(100, 100, 50, 50, fill = "red")
 
-    def quit(self):
+    def quit(self):                                                                                 #close main window dialog
         answer = tkinter.messagebox.askquestion("Quit?", "Are you sure you want to quit?")
         
         if answer == "yes":
             self.master.destroy()
 
-    def openSettings(self):
+    def openSettings(self):                                                                         #main settings UI
         settings = Toplevel()
         settings.title("Settings Menu")
         settingsTop = Frame(settings)
@@ -82,9 +85,11 @@ class mainWindow:                                                               
 
     def fileLoad(self):
         dir_path = self.settings.getCurrentOpenLoc()
-        self.fileLocation = filedialog.askopenfilename(initialdir = dir_path, title = "Select file", filetypes = (("txt files","*.txt"),("all files","*.*")))
+        self.fileLocation = filedialog.askopenfilename(initialdir = dir_path, title = "Select file", filetypes = (("csv files","*.csv"),("txt files","*.txt"),("all files","*.*")))
         if os.path.dirname(self.fileLocation) != "":
             self.settings.setCurrentOpenLoc(os.path.dirname(self.fileLocation))
+            self.fileLocLabel.config(text = ntpath.basename(self.fileLocation))
+        self.af.loadFile(self.fileLocation)
 
-    def printFileLocation(self, event):
-        print(self.fileLocation)
+    def getFileLocation(self):
+        return self.fileLocation

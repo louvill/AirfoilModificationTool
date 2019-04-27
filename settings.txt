@@ -1,2 +1,2 @@
-defaultOpenLoc c:\Users\louvi\OneDrive\CFD\AirfoilModificationTool 
-AnsysLoc C:/Users/louvi/AppData/Local/Discord/Update.exe 
+defaultOpenLoc C:/Users/louvi/OneDrive/CFD/CFD/geometry 
+AnsysLoc D:/Program Files(x86)/ANSYSInc/v172/Framework/bin/Win64/runwb2.exe
