@@ -59,10 +59,8 @@ class mainWindow:                                                               
 
         closeSettings = Button(settingsBottom, text = "Close", command = settings.destroy)
         closeSettings.grid(row = 0)
-        #closeAndSaveSettings = Button(settingsBottom, text = "Close and Save")
-        #closeAndSaveSettings.grid(row = 0, column = 1)
 
-        ansysFileLoc = Entry(settingsTop, width = 60)
+        ansysFileLoc = Entry(settingsTop, width = 60)                                               #ansys file location modification
         ansysLabel = Label(settingsTop, text = "ANSYS Application Location")
         ansysLabel.grid(row = 0)
         ansysFileLoc.grid(row = 0, column = 1)
@@ -70,10 +68,10 @@ class mainWindow:                                                               
         ansysFileLoc.insert(0, self.settings.getAnsysLoc())
 
         def saveAnsysLoc():
-            if ansysFileLoc.get() != self.settings.getAnsysLoc():
+            if ansysFileLoc.get() != self.settings.getAnsysLoc():                                   #only save if not already present or the same
                 self.settings.setAnsysLoc(ansysFileLoc.get())
 
-        def findAnsysLoc():
+        def findAnsysLoc():                                                                         #file open dialog
             dir_path = os.path.dirname(self.settings.getAnsysLoc())
             ansysLoc = filedialog.askopenfilename(initialdir = dir_path, title = "Locate ANSYS", filetypes = (("exe files",".exe"),("all files","*.*")))
             if ansysLoc != "":
@@ -85,7 +83,7 @@ class mainWindow:                                                               
         ansysFileLocFind.grid(row = 0, column = 2)
         ansysFileLocSave.grid(row = 0, column = 3)
 
-    def fileLoad(self):
+    def fileLoad(self):                                                                             #runs to load csv into airfoil object and display window
         dir_path = self.settings.getCurrentOpenLoc()
         self.fileLocation = filedialog.askopenfilename(initialdir = dir_path, title = "Select file", filetypes = (("csv files","*.csv"),("txt files","*.txt"),("all files","*.*")))
         if os.path.dirname(self.fileLocation) != "":
@@ -95,11 +93,8 @@ class mainWindow:                                                               
         self.canvas.delete(ALL)
         self.plotAirfoil()
 
-    def plotAirfoil(self):
+    def plotAirfoil(self):                                                                          #displays geometry calculated by airfoil object
         points = self.af.getPlottingPoints(self.canvasWidth,self.canvasHeight)
-        #r = 5
-        #for i in range(0,len(points)):
-            #self.canvas.create_oval(points[i][0]-r,points[i][1]-r,points[i][0]+r,points[i][1]+r)
         polypoints = []
         for i in range(0,len(points)):
             polypoints.append(points[i][0])

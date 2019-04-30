@@ -8,15 +8,12 @@ class airfoil:
 
     def loadFile(self, fileLocation):
         self.fileLocation = fileLocation
-        #print(self.fileLocation)
         self.points = list(csv.reader(open(self.fileLocation)))
-        #print(self.points)
         for i in range(0,len(self.points)):
             for j in range(0,len(self.points[0])):
                 self.points[i][j] = float(self.points[i][j])
-        #print(self.points)
     
-    def getPlottingPoints(self, canvasWidth, canvasHeight):
+    def getPlottingPoints(self, canvasWidth, canvasHeight):                                     #converts normalized points to plottable points
         xmin = self.points[0][0]
         xmax = self.points[0][0]
         for i in range(1,len(self.points)):
@@ -24,7 +21,7 @@ class airfoil:
                 xmin = self.points[i][0]
             if self.points[i][0] > xmax:
                 xmax = self.points[i][0]
-        xcenter = .5*(xmin+xmax)
+        xcenter = .5*(xmin+xmax)                                                                #find central x value so that the airfoil can be centered
 
         ymin = self.points[0][1]
         ymax = self.points[0][1]
@@ -36,7 +33,7 @@ class airfoil:
         ycenter = .5*(ymin+ymax)
 
         plottingPoints = []
-        scaleFactor = canvasWidth*.8
+        scaleFactor = canvasWidth*.9                                                            #what percent of the screen the airfoil should fill
         for i in range(0,len(self.points)):                                                     #ycoords must be inverted since down is +y
                 plottingPoints.append([(self.points[i][0] - xcenter)*scaleFactor+canvasWidth/2, (-1*self.points[i][1] - ycenter)*scaleFactor+canvasHeight/2])
 

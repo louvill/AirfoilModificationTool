@@ -5,10 +5,10 @@ import os
 
 os.system("cls")                                                                                    #clear console
 
-from settingsFile import *
+from settingsFile import *                                                                          #settings file
 settings = settingsFile()
 
 root = Tk()
-from windows import *
+from windows import *                                                                               #window class
 window = mainWindow(root, settings)
 root.mainloop()

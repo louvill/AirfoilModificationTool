@@ -38,8 +38,6 @@ class settingsFile:
                     lines += self.settingsArray[i][j]
                 else:
                     lines += self.settingsArray[i][j] + " "
-                #lines += self.settingsArray[i][j] + " "
             lines += "\n"
-        #print("Settings file was updated to " + lines)
         settings.writelines(lines)
         settings.close()

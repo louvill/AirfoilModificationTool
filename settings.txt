@@ -1,2 +1,2 @@
-defaultOpenLoc C:/Users/louvi/OneDrive/CFD/CFD/geometry 
+defaultOpenLoc C:/Users/louvi/OneDrive/CFD/AirfoilModificationTool/Example Files 
 AnsysLoc D:/Program Files(x86)/ANSYSInc/v172/Framework/bin/Win64/runwb2.exe
