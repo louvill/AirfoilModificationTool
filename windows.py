@@ -37,7 +37,9 @@ class mainWindow:                                                               
         self.fileLocLabel = Label(bottomFrame, text = "Current loaded file name will be displayed here", fg = "Black")
         self.fileLocLabel.pack()                                                                    #label that contains file info
 
-        self.canvas = Canvas(middleFrame, width = 800, height = 400)                                #area that info will be drawn
+        self.canvasWidth = 800
+        self.canvasHeight = 400
+        self.canvas = Canvas(middleFrame, width = self.canvasWidth, height = self.canvasHeight)     #area that info will be drawn
         self.canvas.pack()
         #self.canvas.create_oval(100, 100, 50, 50, fill = "red")
 
@@ -90,6 +92,16 @@ class mainWindow:                                                               
             self.settings.setCurrentOpenLoc(os.path.dirname(self.fileLocation))
             self.fileLocLabel.config(text = ntpath.basename(self.fileLocation))
         self.af.loadFile(self.fileLocation)
+        self.canvas.delete(ALL)
+        self.plotAirfoil()
 
-    def getFileLocation(self):
-        return self.fileLocation
+    def plotAirfoil(self):
+        points = self.af.getPlottingPoints(self.canvasWidth,self.canvasHeight)
+        #r = 5
+        #for i in range(0,len(points)):
+            #self.canvas.create_oval(points[i][0]-r,points[i][1]-r,points[i][0]+r,points[i][1]+r)
+        polypoints = []
+        for i in range(0,len(points)):
+            polypoints.append(points[i][0])
+            polypoints.append(points[i][1])
+        self.canvas.create_polygon(polypoints, outline = "black", fill = "white")
