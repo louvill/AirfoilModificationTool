@@ -40,8 +40,10 @@ class mainWindow:                                                               
         self.canvasWidth = 800
         self.canvasHeight = 400
         self.canvas = Canvas(middleFrame, width = self.canvasWidth, height = self.canvasHeight)     #area that info will be drawn
-        self.canvas.pack()
-        #self.canvas.create_oval(100, 100, 50, 50, fill = "red")
+        self.canvas.grid()
+
+        self.randomizeButton = Button(middleFrame, text = "Randomize Geometry")
+        self.randomizeButton.grid(row = 0, column = 1)
 
     def quit(self):                                                                                 #close main window dialog
         answer = tkinter.messagebox.askquestion("Quit?", "Are you sure you want to quit?")
@@ -89,9 +91,9 @@ class mainWindow:                                                               
         if os.path.dirname(self.fileLocation) != "":
             self.settings.setCurrentOpenLoc(os.path.dirname(self.fileLocation))
             self.fileLocLabel.config(text = ntpath.basename(self.fileLocation))
-        self.af.loadFile(self.fileLocation)
-        self.canvas.delete(ALL)
-        self.plotAirfoil()
+            self.af.loadFile(self.fileLocation)
+            self.canvas.delete(ALL)
+            self.plotAirfoil()
 
     def plotAirfoil(self):                                                                          #displays geometry calculated by airfoil object
         points = self.af.getPlottingPoints(self.canvasWidth,self.canvasHeight)

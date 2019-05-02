@@ -1,5 +1,5 @@
 import csv
-
+import random
 
 class airfoil:
 

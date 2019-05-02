@@ -7,37 +7,44 @@ class settingsFile:
         if os.path.exists("settings.txt") == False:
             settings = open("settings.txt","w+")
             currentLoc = os.path.dirname(os.path.abspath(__file__))
-            lines = "defaultOpenLoc " + currentLoc + "\n"
-            lines += "AnsysLoc " + currentLoc + "\n"
-            settings.writelines(lines)
-            settings.close()
+            lines = []
+            lines.append(currentLoc)
+            lines.append(currentLoc)
+            print(lines)
+            with open('settings.txt', 'w') as f:
+                f.writelines("%s\n" % l for l in lines)
 
-        with open("settings.txt") as self.settings:
-            self.settingsArray = [line.split() for line in self.settings]
+        self.settings = open("settings.txt","r")
+        self.settingsArray = []
+        for line in self.settings:
+            self.settingsArray.append(line.replace("\n",""))
+        
+        print(self.settingsArray)
+
+        for i in range(0,len(self.settingsArray)):                                          #protects settings file opened on different machines
+            print(os.path.exists(self.settingsArray[i]))
+            if os.path.exists(self.settingsArray[i]) == False:
+                self.settingsArray[i] = 'C:/'
+                self.updateSettingsFile()
 
     def getCurrentOpenLoc(self):
-        return self.settingsArray[0][1]
+        return self.settingsArray[0]
 
     def setCurrentOpenLoc(self, currentFileLoc):
-        self.settingsArray[0][1] = currentFileLoc
+        self.settingsArray[0] = currentFileLoc
         self.updateSettingsFile()
 
     def getAnsysLoc(self):
-        return self.settingsArray[1][1]
+        return self.settingsArray[1]
 
     def setAnsysLoc(self, currentFileLoc):
-        self.settingsArray[1][1] = currentFileLoc
+        self.settingsArray[1] = currentFileLoc
         self.updateSettingsFile()
 
     def updateSettingsFile(self):
         settings = open("settings.txt", "w")
-        lines = ""
+        lines = []
         for i in range(0, len(self.settingsArray)):
-            for j in range(0, len(self.settingsArray[i])):
-                if j == len(self.settingsArray):
-                    lines += self.settingsArray[i][j]
-                else:
-                    lines += self.settingsArray[i][j] + " "
-            lines += "\n"
-        settings.writelines(lines)
-        settings.close()
+            lines.append(self.settingsArray[i])
+        with open('settings.txt', 'w') as f:
+            f.writelines("%s\n" % l for l in lines)
