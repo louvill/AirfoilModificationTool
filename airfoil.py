@@ -5,6 +5,7 @@ class airfoil:
 
     def __init__(self):
         self.genNum = 1
+        self.points = []
 
     def loadFile(self, fileLocation):
         self.fileLocation = fileLocation
@@ -38,3 +39,10 @@ class airfoil:
                 plottingPoints.append([(self.points[i][0] - xcenter)*scaleFactor+canvasWidth/2, (-1*self.points[i][1] - ycenter)*scaleFactor+canvasHeight/2])
 
         return plottingPoints
+    
+    def randomizeGeometry(self):
+        numMods = random.randint(1,int(len(self.points)/2))
+        print(numMods)
+
+    def getNumberOfPoints(self):
+        return len(self.points)

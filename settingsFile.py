@@ -10,7 +10,6 @@ class settingsFile:
             lines = []
             lines.append(currentLoc)
             lines.append(currentLoc)
-            print(lines)
             with open('settings.txt', 'w') as f:
                 f.writelines("%s\n" % l for l in lines)
 
@@ -18,11 +17,8 @@ class settingsFile:
         self.settingsArray = []
         for line in self.settings:
             self.settingsArray.append(line.replace("\n",""))
-        
-        print(self.settingsArray)
 
         for i in range(0,len(self.settingsArray)):                                          #protects settings file opened on different machines
-            print(os.path.exists(self.settingsArray[i]))
             if os.path.exists(self.settingsArray[i]) == False:
                 self.settingsArray[i] = 'C:/'
                 self.updateSettingsFile()

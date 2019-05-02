@@ -42,8 +42,8 @@ class mainWindow:                                                               
         self.canvas = Canvas(middleFrame, width = self.canvasWidth, height = self.canvasHeight)     #area that info will be drawn
         self.canvas.grid()
 
-        self.randomizeButton = Button(middleFrame, text = "Randomize Geometry")
-        self.randomizeButton.grid(row = 0, column = 1)
+        self.randomizeButton = Button(middleFrame, text = "Randomize Geometry", command = self.randomizeAirfoil)
+        self.randomizeButton.grid(row = 0, column = 1, padx = 10)
 
     def quit(self):                                                                                 #close main window dialog
         answer = tkinter.messagebox.askquestion("Quit?", "Are you sure you want to quit?")
@@ -62,7 +62,7 @@ class mainWindow:                                                               
         closeSettings = Button(settingsBottom, text = "Close", command = settings.destroy)
         closeSettings.grid(row = 0)
 
-        ansysFileLoc = Entry(settingsTop, width = 60)                                               #ansys file location modification
+        ansysFileLoc = Entry(settingsTop, width = len(self.settings.getAnsysLoc())+10)              #ansys file location modification
         ansysLabel = Label(settingsTop, text = "ANSYS Application Location")
         ansysLabel.grid(row = 0)
         ansysFileLoc.grid(row = 0, column = 1)
@@ -70,8 +70,8 @@ class mainWindow:                                                               
         ansysFileLoc.insert(0, self.settings.getAnsysLoc())
 
         def saveAnsysLoc():
-            if ansysFileLoc.get() != self.settings.getAnsysLoc():                                   #only save if not already present or the same
-                self.settings.setAnsysLoc(ansysFileLoc.get())
+            if ansysFileLoc.get() != self.settings.getAnsysLoc() and os.path.exists(ansysFileLoc.get()) == True:
+                self.settings.setAnsysLoc(ansysFileLoc.get())                                       #only save if not already present or the same
 
         def findAnsysLoc():                                                                         #file open dialog
             dir_path = os.path.dirname(self.settings.getAnsysLoc())
@@ -79,6 +79,7 @@ class mainWindow:                                                               
             if ansysLoc != "":
                 ansysFileLoc.delete(0, len(ansysFileLoc.get()))
                 ansysFileLoc.insert(0, ansysLoc)
+            settings.lift()
 
         ansysFileLocSave = Button(settingsTop, text = "Save", command = saveAnsysLoc)
         ansysFileLocFind = Button(settingsTop, text = "Locate", command = findAnsysLoc)
@@ -102,3 +103,7 @@ class mainWindow:                                                               
             polypoints.append(points[i][0])
             polypoints.append(points[i][1])
         self.canvas.create_polygon(polypoints, outline = "black", fill = "white")
+
+    def randomizeAirfoil(self):
+        if self.af.getNumberOfPoints() > 0:
+            self.af.randomizeGeometry()
