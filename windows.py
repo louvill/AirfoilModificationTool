@@ -107,3 +107,4 @@ class mainWindow:                                                               
     def randomizeAirfoil(self):
         if self.af.getNumberOfPoints() > 0:
             self.af.randomizeGeometry()
+            self.plotAirfoil()

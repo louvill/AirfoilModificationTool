@@ -1,10 +1,10 @@
 import csv
 import random
+import numpy
 
 class airfoil:
 
     def __init__(self):
-        self.genNum = 1
         self.points = []
 
     def loadFile(self, fileLocation):
@@ -42,7 +42,48 @@ class airfoil:
     
     def randomizeGeometry(self):
         numMods = random.randint(1,int(len(self.points)/2))
-        print(numMods)
+        #print(numMods)
+        for i in range(0, numMods):
+            pointNum = random.randint(0,len(self.points)-1)
+            #print(pointNum)
+            self.points[pointNum][0] = self.points[pointNum][0] + random.randint(-2,2)/1000
+            self.points[pointNum][1] = self.points[pointNum][1] + random.randint(-2,2)/1000
+        self.normalizeAirfoil()
 
     def getNumberOfPoints(self):
         return len(self.points)
+
+    def normalizeAirfoil(self):
+        ymax = self.points[0][1]
+        ymin = self.points[0][1]
+        xmax = self.points[0][0]
+        xmin = self.points[0][0]
+        xMaxLoc = 0
+        xMinLoc = 0
+        for i in range(0, len(self.points)):
+            if self.points[i][0] > xmax:
+                xmax = self.points[i][0]
+                ymax = self.points[i][0]
+                xMaxLoc = i
+            if self.points[i][0] < xmin:
+                xmin = self.points[i][0]
+                ymin = self.points[i][0]
+                xMinLoc = i
+        rotationAngle = -1*numpy.arctan((ymax-ymin)/(xmax-xmin))
+        print(rotationAngle)
+        for i in range(0, len(self.points)):
+            self.points[i][0] = self.points[i][0]*numpy.cos(rotationAngle)-self.points[i][1]*numpy.sin(rotationAngle)
+            self.points[i][1] = self.points[i][0]*numpy.sin(rotationAngle)+self.points[i][1]*numpy.cos(rotationAngle)
+        
+        chordScale = 1/(self.points[xMaxLoc][0]-self.points[xMinLoc][0])
+        #print(chordScale)
+        for i in range(0, len(self.points)):
+            self.points[i][0] = self.points[i][0]*chordScale
+            self.points[i][1] = self.points[i][1]*chordScale
+
+        #deltax = -1*self.points[xMaxLoc][0]
+        #deltay = -1*self.points[xMaxLoc][1]
+
+        #for i in range(0, len(self.points)):
+        #    self.points[i][0] = self.points[i][0]+deltax
+        #    self.points[i][1] = self.points[i][1]+deltay
