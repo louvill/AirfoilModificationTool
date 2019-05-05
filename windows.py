@@ -4,6 +4,7 @@ import tkinter.messagebox
 import os
 import ntpath
 from airfoil import * 
+import time
 
 class mainWindow:                                                                                   #main window for program
 
@@ -44,6 +45,10 @@ class mainWindow:                                                               
 
         self.randomizeButton = Button(middleFrame, text = "Randomize Geometry", command = self.randomizeAirfoil)
         self.randomizeButton.grid(row = 0, column = 1, padx = 10)
+        self.iterationsPerClick = 100
+        self.numberOfIterations = 0
+        self.iterationsLabel = Label(middleFrame, text = "Number of Iterations: 0")
+        self.iterationsLabel.grid(row = 1, column = 1)
 
     def quit(self):                                                                                 #close main window dialog
         answer = tkinter.messagebox.askquestion("Quit?", "Are you sure you want to quit?")
@@ -95,6 +100,8 @@ class mainWindow:                                                               
             self.af.loadFile(self.fileLocation)
             self.canvas.delete(ALL)
             self.plotAirfoil()
+            self.numberOfIterations = 0
+            self.iterationsLabel.config(text = "Number of Iterations: 0")
 
     def plotAirfoil(self):                                                                          #displays geometry calculated by airfoil object
         points = self.af.getPlottingPoints(self.canvasWidth,self.canvasHeight)
@@ -104,7 +111,12 @@ class mainWindow:                                                               
             polypoints.append(points[i][1])
         self.canvas.create_polygon(polypoints, outline = "black", fill = "white")
 
-    def randomizeAirfoil(self):
+    def randomizeAirfoil(self): 
         if self.af.getNumberOfPoints() > 0:
-            self.af.randomizeGeometry()
-            self.plotAirfoil()
+            for i in range(0,self.iterationsPerClick):
+                self.af.randomizeGeometry()
+                #self.canvas.delete(ALL)
+                self.plotAirfoil()
+            self.numberOfIterations += self.iterationsPerClick
+            labelText = "Number of Iterations: " + str(self.numberOfIterations)
+            self.iterationsLabel.config(text = labelText)

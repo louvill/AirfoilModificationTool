@@ -1,2 +1,2 @@
 C:/Users/louvi/OneDrive/CFD/AirfoilModificationTool/Example Files
-D:/Program Files (x86)/ANSYS Inc/v172/Framework/bin/Win64/runwb2.exe
+C:/
